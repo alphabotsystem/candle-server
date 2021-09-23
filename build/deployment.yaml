@@ -17,17 +17,9 @@ spec:
     spec:
       containers:
       - name: candle-server
-        image: gcr.io/nlc-bot-36685/alpha-candle-server
+        image: europe-west4-docker.pkg.dev/nlc-bot-36685/alpha-bot/candle-server
         imagePullPolicy: Always
-        env:
-          - name: PRODUCTION_MODE
-            value: "1"
-          - name: NODE_ENV
-            value: "production"
         volumeMounts:
-          - name: alpha-service-keys
-            mountPath: /run/secrets/alpha-service
-            readOnly: true
           - name: google-cloud-auth
             mountPath: /run/secrets/google-cloud-auth
             readOnly: true
@@ -35,15 +27,19 @@ spec:
           requests:
             memory: "92Mi"
             cpu: "50m"
+        env:
+          - name: PRODUCTION_MODE
+            value: "1"
+          - name: NODE_ENV
+            value: "production"
+          - name: IEXC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: alpha-credentials
+                key: IEXC_KEY
         ports:
           - containerPort: 6900
       volumes:
-        - name: alpha-service-keys
-          secret:
-            secretName: alpha-service-keys
-            items:
-              - key: credentials
-                path: key
         - name: google-cloud-auth
           secret:
             secretName: google-cloud-auth

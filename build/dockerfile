@@ -3,23 +3,24 @@ FROM node:16
 # Make a directory for the service
 WORKDIR /usr/src/candles
 
-# Install dependencies
-COPY ./services/candles/entrypoint.sh ./
+# Install Yarn
 RUN apt-get -y update \
 	&& apt-get -y install yarn \
 	&& apt-get clean
 
 # Install dependencies
-ADD ./services/candles/package.json ./services/candles/yarn.lock ./
-COPY ./libraries/parser ./libraries/parser/
-RUN yarn add ./libraries/parser/TickerParserJs
+ADD ./package.json ./yarn.lock ./
+
+RUN git clone https://github.com/alphabotsystem/dependencies.git && cd ./dependencies && git checkout v1.0
+RUN yarn add ./dependencies/parser/TickerParserJs
 RUN yarn
+RUN rm -r ./dependencies
 
 # Copy source code
-COPY ./services/candles/app ./app
+COPY ./app ./app
 
 # Pass required credentials
 ENV GOOGLE_APPLICATION_CREDENTIALS="/run/secrets/google-cloud-auth/key"
 
 # Run
-ENTRYPOINT ["bash", "./entrypoint.sh"]
+ENTRYPOINT ["node", "app/candle_server.js"]
