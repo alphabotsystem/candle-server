@@ -285,11 +285,6 @@ node-gyp-build@^4.1.0:
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.3.0.tgz#9f256b03e5826150be39c764bf51e993946d71a3"
   integrity sha512-iWjXZvmboq0ja1pUGULQBexmxq8CV4xBhX7VDOTbL7ZR4FOowwY/VOtRxBN/yKxmdGoIp4j5ysNT4u3S2pDQ3Q==
 
-node-iex-cloud@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/node-iex-cloud/-/node-iex-cloud-2.1.1.tgz#6cf0ce1888e0445e26c301c7c8b6eee73d3d03a1"
-  integrity sha512-7SqT9GYjij66/AfTeysN9WqCT2pDB04Xqh5WghJWaVgzX8GqbSScu0LBGIDKI2LavPcbrE+lJ27cLdvpu8FdoA==
-
 once@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"

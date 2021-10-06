@@ -5,14 +5,6 @@ const {
 const {
 	AbstractProvider
 } = require("./abstract.js");
-const {
-	IEXCloudClient
-} = require("node-iex-cloud");
-
-const iex = new IEXCloudClient(fetch, {
-	publishable: process.env.IEXC_KEY,
-	version: "stable"
-});
 
 
 class IEXC extends AbstractProvider {
@@ -23,8 +15,8 @@ class IEXC extends AbstractProvider {
 		var rawData;
 
 		try {
-			rawData = await iex.symbol(ticker.id).intradayPrices({chartLast: 3});
-			if (rawData instanceof Error) throw rawData;
+			const response = await fetch("/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY);
+			rawData = await response.json();
 			if (rawData.length == 0) return [{}, ""];
 			if (!ticker.quote && exchange) return [{}, "Price for `" + ticker.name + "` is not available on " + exchange.name + "."];
 		} catch (err) {
