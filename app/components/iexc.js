@@ -15,7 +15,7 @@ class IEXC extends AbstractProvider {
 		var rawData;
 
 		try {
-			const response = await fetch("/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY);
+			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY);
 			rawData = await response.json();
 			if (rawData.length == 0) return [{}, ""];
 			if (!ticker.quote && exchange) return [{}, "Price for `" + ticker.name + "` is not available on " + exchange.name + "."];
