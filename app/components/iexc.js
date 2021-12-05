@@ -1,7 +1,7 @@
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const {
 	Exchange
-} = require("ticker-parser-js");
+} = require("ticker-parser");
 const {
 	AbstractProvider
 } = require("./abstract.js");

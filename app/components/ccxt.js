@@ -1,6 +1,6 @@
 const {
 	Exchange
-} = require("ticker-parser-js");
+} = require("ticker-parser");
 const {
 	AbstractProvider
 } = require("./abstract.js");
