@@ -16,20 +16,25 @@ const errors = new ErrorReporting();
 const request_candle = async (request) => {
 	var payload = {}, candleMessage = "", updatedCandleMessage = "";
 
-	for (const platform of request.platforms) {
-		const currentRequest = request[platform];
+	try {
+		for (const platform of request.platforms) {
+			const currentRequest = request[platform];
 
-		if (platform == "CCXT") {
-			[payload, updatedCandleMessage] = await CCXT.request_candles(currentRequest);
-		} else if (platform == "IEXC") {
-			[payload, updatedCandleMessage] = await IEXC.request_candles(currentRequest);
-		}
+			if (platform == "CCXT") {
+				[payload, updatedCandleMessage] = await CCXT.request_candles(currentRequest);
+			} else if (platform == "IEXC") {
+				[payload, updatedCandleMessage] = await IEXC.request_candles(currentRequest);
+			}
 
-		if (Object.keys(payload).length != 0) {
-			return [JSON.stringify(payload), updatedCandleMessage];
-		} else if (updatedCandleMessage != "") {
-			candleMessage = updatedCandleMessage;
+			if (Object.keys(payload).length != 0) {
+				return [JSON.stringify(payload), updatedCandleMessage];
+			} else if (updatedCandleMessage != "") {
+				candleMessage = updatedCandleMessage;
+			}
 		}
+	} catch (error) {
+		console.error(error);
+		if (process.env.PRODUCTION_MODE) errors.report(error);
 	}
 
 	return [JSON.stringify({}), candleMessage];
