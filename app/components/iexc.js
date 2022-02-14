@@ -7,7 +7,7 @@ class IEXC extends AbstractProvider {
 		const ticker = request.ticker
 		const exchange = Exchange.from_dict(ticker.exchange)
 
-		var rawData
+		let rawData
 
 		try {
 			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)

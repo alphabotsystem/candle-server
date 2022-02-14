@@ -8,7 +8,7 @@ class CCXT extends AbstractProvider {
 
 		if (!exchange) return [{}, ""]
 
-		var rawData
+		let rawData
 
 		try {
 			rawData = await exchange.properties.fetchOHLCV(ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)

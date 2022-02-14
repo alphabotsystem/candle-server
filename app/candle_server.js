@@ -7,7 +7,7 @@ const { IEXC } = require("./components/iexc.js")
 const errors = new ErrorReporting()
 
 const request_candle = async (request) => {
-	var payload = {},
+	let payload = {},
 		candleMessage = "",
 		updatedCandleMessage = ""
 
@@ -43,7 +43,7 @@ const main = async () => {
 
 	while (true) {
 		try {
-			var response = [JSON.stringify({}), ""]
+			let response = [JSON.stringify({}), ""]
 			const message = await sock.receive()
 			if (message.length != 5) continue
 			const [origin, delimeter, clientId, service, r] = message
