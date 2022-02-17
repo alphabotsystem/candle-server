@@ -26,11 +26,7 @@ class CCXT extends AbstractProvider {
 
 		rawData.forEach((e) => {
 			const timestamp = e[0] / 1000
-			if (ticker.isReversed) {
-				payload.candles.push([timestamp, 1 / e[1], 1 / e[2], 1 / e[3], 1 / e[4]])
-			} else {
-				payload.candles.push([timestamp, e[1], e[2], e[3], e[4]])
-			}
+			payload.candles.push([timestamp, e[1], e[2], e[3], e[4]])
 		})
 
 		return [payload, ""]

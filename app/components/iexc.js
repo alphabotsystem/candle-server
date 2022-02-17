@@ -28,18 +28,10 @@ class IEXC extends AbstractProvider {
 		rawData.forEach((e) => {
 			const timestamp = Date.parse(e.date + " " + e.minute) / 1000
 
-			if (ticker.isReversed) {
-				if (e.marketClose) {
-					payload["candles"].push([timestamp, 1 / e.marketOpen, 1 / e.marketHigh, 1 / e.marketLow, 1 / e.marketClose])
-				} else {
-					payload["candles"].push([timestamp, 1 / e.open, 1 / e.high, 1 / e.low, 1 / e.close])
-				}
+			if (e.marketClose) {
+				payload["candles"].push([timestamp, e.marketOpen, e.marketHigh, e.marketLow, e.marketClose])
 			} else {
-				if (e.marketClose) {
-					payload["candles"].push([timestamp, e.marketOpen, e.marketHigh, e.marketLow, e.marketClose])
-				} else {
-					payload["candles"].push([timestamp, e.open, e.high, e.low, e.close])
-				}
+				payload["candles"].push([timestamp, e.open, e.high, e.low, e.close])
 			}
 		})
 
