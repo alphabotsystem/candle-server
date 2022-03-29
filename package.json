@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "@google-cloud/error-reporting": "^2.0.3",
-    "ccxt": "^1.67.18",
-    "node-fetch": "^3.0.0",
+    "ccxt": "^1.77.41",
+    "node-fetch": "^3.2.3",
     "zeromq": "^6.0.0-beta.6"
   }
 }

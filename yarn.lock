@@ -3,9 +3,9 @@
 
 
 "@google-cloud/common@^3.0.0":
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.8.1.tgz#1313c55bb66df88f69bf7c828135fae25fbd2036"
-  integrity sha512-FOs3NFU6bDt5mXE7IFpwIeqzLwRZNu9lJYl+bHVNkwmxX/w4VyDZAiGjQHhpV1Ek+muNKlX8HPchxaIxNTuOhw==
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-3.10.0.tgz#454d1155bb512109cd83c6183aabbd39f9aabda7"
+  integrity sha512-XMbJYMh/ZSaZnbnrrOFfR/oQrb0SxG4qh6hDisWCoEbFcBHV0qHQo4uXfeMCzolx2Mfkh6VDaOGg+hyJsmxrlw==
   dependencies:
     "@google-cloud/projectify" "^2.0.0"
     "@google-cloud/promisify" "^2.0.0"
@@ -13,7 +13,7 @@
     duplexify "^4.1.1"
     ent "^2.2.0"
     extend "^3.0.2"
-    google-auth-library "^7.9.2"
+    google-auth-library "^7.14.0"
     retry-request "^4.2.2"
     teeny-request "^7.0.0"
 
@@ -74,10 +74,10 @@ buffer-equal-constant-time@1.0.1:
   resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
   integrity sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
 
-ccxt@^1.67.18:
-  version "1.67.18"
-  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.67.18.tgz#15a7235333da005c4e844e4f6202b4452474533f"
-  integrity sha512-ScVmXX2CiTxr9kpyVJSdgOogj8vKHjlRVDokVmeHml7SToPwaqPxh2YSMOuWabpytI2rJJw4yvBasozXIriN+w==
+ccxt@^1.77.41:
+  version "1.77.41"
+  resolved "https://registry.yarnpkg.com/ccxt/-/ccxt-1.77.41.tgz#8d2c3640a8ce3c15412e0c2c6928579f08c70726"
+  integrity sha512-YeBp5PM01tC83/JthSSV6L681WZ2oSkrnyk016m0esGDA8KTmjeVCBB7Ru/GDWTmo6NHk7YAba/F9JwjCsNU7w==
 
 console-log-level@^1.4.1:
   version "1.4.1"
@@ -90,9 +90,9 @@ data-uri-to-buffer@^4.0.0:
   integrity sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==
 
 debug@4, debug@^4.1.1:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
-  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
 
@@ -140,11 +140,12 @@ fast-text-encoding@^1.0.0:
   resolved "https://registry.yarnpkg.com/fast-text-encoding/-/fast-text-encoding-1.0.3.tgz#ec02ac8e01ab8a319af182dae2681213cfe9ce53"
   integrity sha512-dtm4QZH9nZtcDt8qJiOH9fcQd1NAgi+K1O2DbE6GG1PPCK/BWfOH3idCTRQ4ImXRUOyopDEgDEnVEE7Y/2Wrig==
 
-fetch-blob@^3.1.2:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/fetch-blob/-/fetch-blob-3.1.3.tgz#a7dca4855e39d3e3c5a1da62d4ee335c37d26012"
-  integrity sha512-ax1Y5I9w+9+JiM+wdHkhBoxew+zG4AJ2SvAD1v1szpddUIiPERVGBxrMcB2ZqW0Y3PP8bOWYv2zqQq1Jp2kqUQ==
+fetch-blob@^3.1.2, fetch-blob@^3.1.4:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/fetch-blob/-/fetch-blob-3.1.5.tgz#0077bf5f3fcdbd9d75a0b5362f77dbb743489863"
+  integrity sha512-N64ZpKqoLejlrwkIAnb9iLSA3Vx/kjgzpcDhygcqJ2KKjky8nCgUQ+dzXtbrLaWZGZNmNfQTsiQ0weZ1svglHg==
   dependencies:
+    node-domexception "^1.0.0"
     web-streams-polyfill "^3.0.3"
 
 formdata-polyfill@^4.0.10:
@@ -173,10 +174,10 @@ gcp-metadata@^4.2.0:
     gaxios "^4.0.0"
     json-bigint "^1.0.0"
 
-google-auth-library@^7.9.2:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.11.0.tgz#b63699c65037310a424128a854ba7e736704cbdb"
-  integrity sha512-3S5jn2quRumvh9F/Ubf7GFrIq71HZ5a6vqosgdIu105kkk0WtSqc2jGCRqtWWOLRS8SX3AHACMOEDxhyWAQIcg==
+google-auth-library@^7.14.0:
+  version "7.14.1"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.1.tgz#e3483034162f24cc71b95c8a55a210008826213c"
+  integrity sha512-5Rk7iLNDFhFeBYc3s8l1CqzbEBcdhwR193RlD4vSNFajIcINKI8W8P0JLmBpwymHqqWbX34pJDQu39cSy/6RsA==
   dependencies:
     arrify "^2.0.0"
     base64-js "^1.3.0"
@@ -188,7 +189,7 @@ google-auth-library@^7.9.2:
     jws "^4.0.0"
     lru-cache "^6.0.0"
 
-google-p12-pem@^3.0.3:
+google-p12-pem@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/google-p12-pem/-/google-p12-pem-3.1.3.tgz#5497998798ee86c2fc1f4bb1f92b7729baf37537"
   integrity sha512-MC0jISvzymxePDVembypNefkAQp+DRP7dBE+zNUPaIjEspIlYg0++OrsNr248V9tPbz6iqtZ7rX1hxWA5B8qBQ==
@@ -196,12 +197,12 @@ google-p12-pem@^3.0.3:
     node-forge "^1.0.0"
 
 gtoken@^5.0.4:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.3.1.tgz#c1c2598a826f2b5df7c6bb53d7be6cf6d50c3c78"
-  integrity sha512-yqOREjzLHcbzz1UrQoxhBtpk8KjrVhuqPE7od1K2uhyxG2BHjKZetlbLw/SPZak/QqTIQW+addS+EcjqQsZbwQ==
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.3.2.tgz#deb7dc876abe002178e0515e383382ea9446d58f"
+  integrity sha512-gkvEKREW7dXWF8NV8pVrKfW7WqReAmjjkMBh6lNCCGOM4ucS0r0YyXXl0r/9Yj8wcW/32ISkfc8h5mPTDbtifQ==
   dependencies:
     gaxios "^4.0.0"
-    google-p12-pem "^3.0.3"
+    google-p12-pem "^3.1.3"
     jws "^4.0.0"
 
 http-proxy-agent@^5.0.0:
@@ -267,26 +268,31 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+node-domexception@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-domexception/-/node-domexception-1.0.0.tgz#6888db46a1f71c0b76b3f7555016b63fe64766e5"
+  integrity sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==
+
 node-fetch@^2.6.1:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
-  integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
   dependencies:
     whatwg-url "^5.0.0"
 
-node-fetch@^3.0.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.1.0.tgz#714f4922dc270239487654eaeeab86b8206cb52e"
-  integrity sha512-QU0WbIfMUjd5+MUzQOYhenAazakV7Irh1SGkWCsRzBwvm4fAhzEUaHMJ6QLP7gWT6WO9/oH2zhKMMGMuIrDyKw==
+node-fetch@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.3.tgz#a03c9cc2044d21d1a021566bd52f080f333719a6"
+  integrity sha512-AXP18u4pidSZ1xYXRDPY/8jdv3RAozIt/WLNR/MBGZAz+xjtlr90RvCnsvHQRiXyWliZF/CpytExp32UU67/SA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
-    fetch-blob "^3.1.2"
+    fetch-blob "^3.1.4"
     formdata-polyfill "^4.0.10"
 
 node-forge@^1.0.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.2.1.tgz#82794919071ef2eb5c509293325cec8afd0fd53c"
-  integrity sha512-Fcvtbb+zBcZXbTTVwqGA5W+MKBj56UjVRevvchv5XrcyXbmNdesfZL37nlcWOfpgHhgmxApw3tQbTr4CqNmX4w==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-1.3.0.tgz#37a874ea723855f37db091e6c186e5b67a01d4b2"
+  integrity sha512-08ARB91bUi6zNKzVmaj3QO7cr397uiDT2nJ63cHjyNtCTWIgvS47j3eT0WfzUwS9+6Z5YshRaoasFkXCKrIYbA==
 
 node-gyp-build@^4.1.0:
   version "4.3.0"
