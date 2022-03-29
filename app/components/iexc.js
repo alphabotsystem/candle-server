@@ -30,7 +30,7 @@ class IEXC extends AbstractProvider {
 
 			if (e.marketClose) {
 				payload["candles"].push([timestamp, e.marketOpen, e.marketHigh, e.marketLow, e.marketClose])
-			} else {
+			} else if (e.close) {
 				payload["candles"].push([timestamp, e.open, e.high, e.low, e.close])
 			}
 		})
