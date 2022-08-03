@@ -3,15 +3,10 @@ FROM node:16
 # Make a directory for the service
 WORKDIR /usr/src/candles
 
-# Install Yarn
-RUN apt-get -y update \
-	&& apt-get -y install yarn \
-	&& apt-get clean
-
 # Install dependencies
 ADD ./package.json ./yarn.lock ./
 
-RUN git clone https://github.com/alphabotsystem/dependencies.git && cd ./dependencies && git checkout v1.4.7
+RUN git clone https://github.com/alphabotsystem/dependencies.git && cd ./dependencies && git checkout v1.7.1
 RUN yarn add ./dependencies/js/parser/
 RUN yarn
 RUN rm -r ./dependencies
