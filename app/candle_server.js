@@ -5,14 +5,6 @@ import IEXC from "./components/iexc.js"
 
 const app = express()
 
-const verification = (req, res, next) => {
-	if (req.headers["authorization"] === process.env.INTERNAL_SERVICES_KEY) {
-		next()
-	} else {
-		res.status(401).send({ message: "Unauthorized" })
-	}
-}
-
 const request_candle = async (request, platform) => {
 	if (platform == "CCXT") {
 		return await CCXT.request_candles(request)
@@ -23,7 +15,6 @@ const request_candle = async (request, platform) => {
 }
 
 app.use(express.json())
-app.use(verification)
 
 app.post("/", async (req, res) => {
 	let finalMessage = ""
