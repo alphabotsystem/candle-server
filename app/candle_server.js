@@ -11,7 +11,7 @@ const request_candle = async (request, platform) => {
 	} else if (platform == "IEXC") {
 		return await IEXC.request_candles(request)
 	}
-	return [{}, ""]
+	return [null, ""]
 }
 
 app.use(express.json())
@@ -29,7 +29,7 @@ app.post("/", async (req, res) => {
 		}
 	}
 
-	res.send({ response: {}, message: finalMessage })
+	res.send({ response: null, message: finalMessage })
 })
 
 app.post("/ccxt", async (req, res) => {

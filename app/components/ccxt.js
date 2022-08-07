@@ -6,15 +6,15 @@ export default class CCXT extends AbstractProvider {
 		const ticker = request.ticker
 		const exchange = Exchange.from_dict(ticker.exchange)
 
-		if (!exchange) return [{}, ""]
+		if (!exchange) return [null, ""]
 
 		let rawData
 
 		try {
 			rawData = await exchange.properties.fetchOHLCV(ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
-			if (rawData.length == 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [{}, ""]
+			if (rawData.length == 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, ""]
 		} catch (err) {
-			return [{}, ""]
+			return [null, ""]
 		}
 
 		let payload = {
