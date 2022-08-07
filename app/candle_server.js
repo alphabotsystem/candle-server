@@ -19,7 +19,7 @@ app.use(express.json())
 app.post("/", async (req, res) => {
 	let finalMessage = ""
 
-	for (const platform of request.platforms) {
+	for (const platform of req.body.platforms) {
 		const [payload, message] = await request_candle(req.body[platform], platform)
 		if (Object.keys(payload).length != 0) {
 			res.send({ response: payload, message: message })
