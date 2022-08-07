@@ -1,8 +1,8 @@
-const fetch = (...args) => import("node-fetch").then(({ default: fetch }) => fetch(...args))
-const { Exchange } = require("ticker-parser")
-const { AbstractProvider } = require("./abstract.js")
+import fetch from "node-fetch"
+import { Exchange } from "ticker-parser"
+import AbstractProvider from "./abstract.js"
 
-class IEXC extends AbstractProvider {
+export default class IEXC extends AbstractProvider {
 	static async request_candles(request) {
 		const ticker = request.ticker
 		const exchange = Exchange.from_dict(ticker.exchange)
@@ -38,5 +38,3 @@ class IEXC extends AbstractProvider {
 		return [payload, ""]
 	}
 }
-
-module.exports = { IEXC }

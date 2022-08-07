@@ -1,3 +1,1 @@
-class AbstractProvider {}
-
-module.exports = { AbstractProvider };
+export default class AbstractProvider {}
