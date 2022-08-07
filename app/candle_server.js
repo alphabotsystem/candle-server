@@ -1,40 +1,53 @@
 import express from "express"
-import { ErrorReporting } from "@google-cloud/error-reporting"
 
 import CCXT from "./components/ccxt.js"
 import IEXC from "./components/iexc.js"
 
-const errors = new ErrorReporting()
 const app = express()
 
-const request_candle = async (request) => {
-	let payload = {},
-		candleMessage = "",
-		updatedCandleMessage = ""
-
-	try {
-		if (platform == "CCXT") {
-			[payload, updatedCandleMessage] = await CCXT.request_candles(request)
-		} else if (platform == "IEXC") {
-			[payload, updatedCandleMessage] = await IEXC.request_candles(request)
-		}
-
-		if (Object.keys(payload).length != 0) {
-			return [payload, updatedCandleMessage]
-		} else if (updatedCandleMessage != "") {
-			candleMessage = updatedCandleMessage
-		}
-	} catch (error) {
-		console.error(error)
-		if (process.env.PRODUCTION_MODE) errors.report(error)
+const verification = (req, res, next) => {
+	if (req.headers["authorization"] === process.env.INTERNAL_SERVICES_KEY) {
+		next()
+	} else {
+		res.status(401).send({ message: "Unauthorized" })
 	}
+}
 
-	return [{}, candleMessage]
+const request_candle = async (request, platform) => {
+	if (platform == "CCXT") {
+		return await CCXT.request_candles(request)
+	} else if (platform == "IEXC") {
+		return await IEXC.request_candles(request)
+	}
+	return [{}, ""]
 }
 
 app.use(express.json())
+app.use(verification)
+
 app.post("/", async (req, res) => {
-	const [response, message] = await request_candle(req.body)
+	let finalMessage = ""
+
+	for (const platform of request.platforms) {
+		const [payload, message] = await request_candle(req.body[platform], platform)
+		if (Object.keys(payload).length != 0) {
+			res.send({ response: payload, message: message })
+			return
+		} else if (message != "") {
+			finalMessage = message
+		}
+	}
+
+	res.send({ response: {}, message: finalMessage })
+})
+
+app.post("/ccxt", async (req, res) => {
+	const [response, message] = await CCXT.request_candles(req.body)
+	res.send({ response, message })
+})
+
+app.post("/iexc", async (req, res) => {
+	const [response, message] = await IEXC.request_candles(req.body)
 	res.send({ response, message })
 })
 
