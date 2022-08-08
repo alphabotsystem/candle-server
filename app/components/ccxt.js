@@ -2,9 +2,9 @@ import { Exchange } from "ticker-parser"
 import AbstractProvider from "./abstract.js"
 
 export default class CCXT extends AbstractProvider {
-	static async request_candles(request) {
+	static async requestCandles(request) {
 		const ticker = request.ticker
-		const exchange = Exchange.from_dict(ticker.exchange)
+		const exchange = Exchange.fromDict(ticker.exchange)
 
 		if (!exchange) return [null, null]
 

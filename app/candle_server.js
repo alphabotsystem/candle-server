@@ -5,11 +5,11 @@ import IEXC from "./components/iexc.js"
 
 const app = express()
 
-const request_candle = async (request, platform) => {
-	if (platform == "CCXT") {
-		return await CCXT.request_candles(request)
-	} else if (platform == "IEXC") {
-		return await IEXC.request_candles(request)
+const requestCandles = async (request, platform) => {
+	if (platform === "CCXT") {
+		return await CCXT.requestCandles(request)
+	} else if (platform === "IEXC") {
+		return await IEXC.requestCandles(request)
 	}
 	return [null, ""]
 }
@@ -20,8 +20,8 @@ app.post("/candle", async (req, res) => {
 	let finalMessage = null
 
 	for (const platform of req.body.platforms) {
-		const [payload, message] = await request_candle(req.body[platform], platform)
-		if (Object.keys(payload).length != 0) {
+		const [payload, message] = await requestCandles(req.body[platform], platform)
+		if (payload !== null) {
 			res.send({ response: payload, message: message })
 			return
 		} else if (typeof message === "string") {
@@ -33,12 +33,12 @@ app.post("/candle", async (req, res) => {
 })
 
 app.post("/candle/ccxt", async (req, res) => {
-	const [response, message] = await CCXT.request_candles(req.body)
+	const [response, message] = await CCXT.requestCandles(req.body)
 	res.send({ response, message })
 })
 
 app.post("/candle/iexc", async (req, res) => {
-	const [response, message] = await IEXC.request_candles(req.body)
+	const [response, message] = await IEXC.requestCandles(req.body)
 	res.send({ response, message })
 })
 
