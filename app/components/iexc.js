@@ -11,10 +11,10 @@ export default class IEXC extends AbstractProvider {
 		try {
 			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
 			rawData = await response.json()
-			if (rawData.length == 0) return [null, ""]
+			if (rawData.length == 0) return [null, null]
 			if (!ticker.quote && exchange) return [null, "Price for `" + ticker.name + "` is not available on " + exchange.name + "."]
 		} catch (err) {
-			return [null, ""]
+			return [null, null]
 		}
 
 		let payload = {
@@ -34,6 +34,6 @@ export default class IEXC extends AbstractProvider {
 			}
 		})
 
-		return [payload, ""]
+		return [payload, null]
 	}
 }
