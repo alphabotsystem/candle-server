@@ -43,6 +43,13 @@ app.post("/candle/iexc", async (req, res) => {
 })
 
 const port = parseInt(process.env.PORT) || 8080
-app.listen(port, () => {
+const server = app.listen(port, () => {
 	console.log("[Startup]: Candle Server is online")
+})
+
+process.on("SIGTERM", () => {
+	server.close(() => {
+		console.log("[Shutdown]: Candle Server is offline")
+		process.exit(0)
+	})
 })
