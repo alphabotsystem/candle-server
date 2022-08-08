@@ -16,7 +16,7 @@ const request_candle = async (request, platform) => {
 
 app.use(express.json())
 
-app.post("/", async (req, res) => {
+app.post("/candle", async (req, res) => {
 	let finalMessage = ""
 
 	for (const platform of req.body.platforms) {
@@ -32,12 +32,12 @@ app.post("/", async (req, res) => {
 	res.send({ response: null, message: finalMessage })
 })
 
-app.post("/ccxt", async (req, res) => {
+app.post("/candle/ccxt", async (req, res) => {
 	const [response, message] = await CCXT.request_candles(req.body)
 	res.send({ response, message })
 })
 
-app.post("/iexc", async (req, res) => {
+app.post("/candle/iexc", async (req, res) => {
 	const [response, message] = await IEXC.request_candles(req.body)
 	res.send({ response, message })
 })
