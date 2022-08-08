@@ -32,7 +32,7 @@ jobs:
           gcloud --quiet auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
       - name: Build Container
         run: |-
-          docker image build -t ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/production:${{ github.sha }} --build-arg=TV_PASS=${{ secrets.TV_PASSWORD }} -f ./build/dockerfile .
+          docker image build -t ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/production:${{ github.sha }} -f ./build/dockerfile .
       - name: Push Container
         run: |-
           gcloud artifacts docker images delete ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}/production || :

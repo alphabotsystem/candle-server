@@ -1,4 +1,3 @@
-import fetch from "node-fetch"
 import { Exchange } from "ticker-parser"
 import AbstractProvider from "./abstract.js"
 
