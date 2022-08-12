@@ -37,7 +37,7 @@ app.post("/candle", async (req, res) => {
 app.post("/candle/ccxt", async (req, res) => {
 	const hash = crypto
 		.createHash("md5")
-		.update(JSON.stringify(request, Object.keys(request).sort()))
+		.update(JSON.stringify(request.ticker, Object.keys(request.ticker).sort()))
 		.digest("hex")
 	const cached = cache.get(hash)
 	if (cached !== null) {
@@ -55,7 +55,7 @@ app.post("/candle/ccxt", async (req, res) => {
 app.post("/candle/iexc", async (req, res) => {
 	const hash = crypto
 		.createHash("md5")
-		.update(JSON.stringify(request, Object.keys(request).sort()))
+		.update(JSON.stringify(request.ticker, Object.keys(request.ticker).sort()))
 		.digest("hex")
 	const cached = cache.get(hash)
 	if (cached !== null) {
