@@ -26,7 +26,7 @@ app.post("/candle", async (req, res) => {
 		if (payload !== null) {
 			res.send({ response: payload, message: message })
 			return
-		} else if (typeof message === "string") {
+		} else if (typeof message === "string" && !finalMessage) {
 			finalMessage = message
 		}
 	}
