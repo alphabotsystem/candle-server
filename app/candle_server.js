@@ -1,4 +1,6 @@
 import express from "express"
+import cache from "memory-cache"
+import crypto from "crypto"
 
 import CCXT from "./components/ccxt.js"
 import IEXC from "./components/iexc.js"
@@ -33,12 +35,38 @@ app.post("/candle", async (req, res) => {
 })
 
 app.post("/candle/ccxt", async (req, res) => {
+	const hash = crypto
+		.createHash("md5")
+		.update(JSON.stringify(request, Object.keys(request).sort()))
+		.digest("hex")
+	const cached = cache.get(hash)
+	if (cached !== null) {
+		res.send(cached)
+		return
+	}
+
 	const [response, message] = await CCXT.requestCandles(req.body)
+	const ttl = 60000 - Date.now() % 60000
+	cache.put(hash, { response, message }, ttl)
+
 	res.send({ response, message })
 })
 
 app.post("/candle/iexc", async (req, res) => {
+	const hash = crypto
+		.createHash("md5")
+		.update(JSON.stringify(request, Object.keys(request).sort()))
+		.digest("hex")
+	const cached = cache.get(hash)
+	if (cached !== null) {
+		res.send(cached)
+		return
+	}
+
 	const [response, message] = await IEXC.requestCandles(req.body)
+	const ttl = 60000 - Date.now() % 60000
+	cache.put(hash, { response, message }, ttl)
+
 	res.send({ response, message })
 })
 
