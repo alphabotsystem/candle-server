@@ -14,6 +14,7 @@ export default class IEXC extends AbstractProvider {
 			if (rawData.length == 0) return [null, null]
 			if (!ticker.quote && exchange) return [null, "Price for `" + ticker.name + "` is not available on " + exchange.name + "."]
 		} catch (err) {
+			console.error(err)
 			return [null, null]
 		}
 

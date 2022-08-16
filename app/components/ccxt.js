@@ -17,6 +17,7 @@ export default class CCXT extends AbstractProvider {
 			rawData = await exchange.properties.fetchOHLCV(ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
 			if (rawData.length == 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
 		} catch (err) {
+			console.error(err)
 			return [null, null]
 		}
 
