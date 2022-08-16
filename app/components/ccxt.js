@@ -2,11 +2,14 @@ import { Exchange } from "ticker-parser"
 import AbstractProvider from "./abstract.js"
 
 export default class CCXT extends AbstractProvider {
+	static cache = {}
+
 	static async requestCandles(request) {
 		const ticker = request.ticker
-		const exchange = Exchange.fromDict(ticker.exchange)
+		const exchange = Exchange.fromDict(ticker.exchange, CCXT.cache[ticker.exchange.id])
 
 		if (!exchange) return [null, null]
+		CCXT.cache[exchange.id] = exchange.properties
 
 		let rawData
 
