@@ -42,8 +42,8 @@ app.post("/candle/iexc", async (req, res) => {
 	res.send({ response, message })
 })
 
-const port = parseInt(process.env.PORT) || 8080
-const server = app.listen(port, () => {
+// const port = parseInt(process.env.PORT) || 8080
+const server = app.listen(6900, () => {
 	console.log("[Startup]: Candle Server is online")
 })
 
