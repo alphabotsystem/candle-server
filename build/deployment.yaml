@@ -6,7 +6,7 @@ metadata:
   labels:
     app: candle-server
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       app: candle-server
@@ -21,8 +21,8 @@ spec:
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "70Mi"
-            cpu: "13m"
+            memory: "90Mi"
+            cpu: "50m"
         env:
           - name: PRODUCTION
             value: "1"
