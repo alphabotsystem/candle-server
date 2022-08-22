@@ -11,7 +11,7 @@ const requestCandles = async (request, platform) => {
 	} else if (platform === "IEXC") {
 		return await IEXC.requestCandles(request)
 	}
-	return [null, ""]
+	return [null, null]
 }
 
 app.use(express.json())
