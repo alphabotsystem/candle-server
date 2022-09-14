@@ -1,18 +1,16 @@
-import { Exchange } from "ticker-parser"
 import AbstractProvider from "./abstract.js"
 
 export default class IEXC extends AbstractProvider {
 	static async requestCandles(request) {
-		const ticker = request.ticker
-		const exchange = Exchange.fromDict(ticker.exchange)
+		if (!request.ticker.exchange) return [null, null]
 
 		let rawData
 
 		try {
-			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
+			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
 			rawData = await response.json()
 			if (rawData.length == 0) return [null, null]
-			if (!ticker.quote && exchange) return [null, "Price for `" + ticker.name + "` is not available on " + exchange.name + "."]
+			if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
 		} catch (err) {
 			console.error(err)
 			return [null, null]
@@ -20,7 +18,7 @@ export default class IEXC extends AbstractProvider {
 
 		let payload = {
 			candles: [],
-			title: ticker.name,
+			title: request.ticker.name,
 			sourceText: "Data provided by IEX Cloud",
 			platform: "IEXC",
 		}

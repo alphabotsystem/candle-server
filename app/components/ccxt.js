@@ -1,17 +1,15 @@
-import { Exchange } from "ticker-parser"
 import AbstractProvider from "./abstract.js"
+import ccxt from "ccxt"
 
 export default class CCXT extends AbstractProvider {
 	static async requestCandles(request) {
-		const ticker = request.ticker
-		const exchange = Exchange.fromDict(ticker.exchange)
+		if (!request.ticker.exchange) return [null, null]
 
-		if (!exchange) return [null, null]
+		const ccxtInstance = new ccxt[request.ticker.exchange.id]()
 
 		let rawData
-
 		try {
-			rawData = await exchange.properties.fetchOHLCV(ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
+			rawData = await ccxtInstance.fetchOHLCV(request.ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
 			if (rawData.length == 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
 		} catch (err) {
 			console.error(err)
@@ -20,8 +18,8 @@ export default class CCXT extends AbstractProvider {
 
 		let payload = {
 			candles: [],
-			title: ticker.name,
-			sourceText: "Data from " + exchange.name,
+			title: request.ticker.name,
+			sourceText: "Data from " + request.ticker.exchange.name,
 			platform: "CCXT",
 		}
 
