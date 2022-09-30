@@ -47,9 +47,13 @@ const server = app.listen(6900, () => {
 	console.log("[Startup]: Candle Server is online")
 })
 
-process.on("SIGTERM", () => {
+const shutdown = () => {
 	server.close(() => {
 		console.log("[Shutdown]: Candle Server is offline")
 		process.exit(0)
 	})
+}
+
+process.on("SIGTERM", () => {
+	shutdown()
 })
