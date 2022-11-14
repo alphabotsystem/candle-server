@@ -6,7 +6,7 @@ ADD ./package.json ./yarn.lock ./
 RUN yarn
 
 # Copy source code
-COPY ./app ./src
+COPY ./src ./src
 
 FROM node:18-alpine AS runner
 WORKDIR /app
