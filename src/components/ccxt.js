@@ -5,12 +5,24 @@ export default class CCXT extends AbstractProvider {
 	static async requestCandles(request) {
 		if (!request.ticker.exchange) return [null, null]
 
-		const ccxtInstance = new ccxt[request.ticker.exchange.id]()
+		let ccxtInstance
+		if (request.ticker.exchange.id === "binance") {
+			ccxtInstance = new ccxt.binance()
+			ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+		} else if (request.ticker.exchange.id === "binanceusdm") {
+			ccxtInstance = new ccxt.binanceusdm()
+			ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+		} else if (request.ticker.exchange.id === "binancecoinm") {
+			ccxtInstance = new ccxt.binancecoinm()
+			ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+		} else {
+			ccxtInstance = new ccxt[request.ticker.exchange.id]()
+		}
 
 		let rawData
 		try {
 			rawData = await ccxtInstance.fetchOHLCV(request.ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
-			if (rawData.length == 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
+			if (rawData.length === 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
 		} catch (err) {
 			console.error(err)
 			return [null, null]
