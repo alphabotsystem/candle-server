@@ -41,7 +41,7 @@ export default class CCXT extends AbstractProvider {
 			const closePrice = results[0]["close"]
 
 			let payload = {
-				candles: [Date.now() / 1000 - 180, openPrice, highPrice, lowPrice, closePrice],
+				candles: [[Date.now() / 1000 - 180, openPrice, highPrice, lowPrice, closePrice]],
 				title: request.ticker.name,
 				sourceText: "Data from " + request.ticker.exchange.name,
 				platform: "CCXT",
