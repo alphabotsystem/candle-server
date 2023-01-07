@@ -6,8 +6,9 @@ import ccxt from "ccxt"
 const client = new BigQuery();
 
 const CCXT_TO_CACHE_MAP = {
-	binance: ["binance", "s"],
-	binanceusdm: ["binance", "f"],
+	// binance: ["binance", "s"],
+	// binanceusdm: ["binance", "f"],
+	// binancecoinm: ["binance", "i"],
 }
 
 export default class CCXT extends AbstractProvider {
