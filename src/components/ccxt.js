@@ -15,20 +15,20 @@ export default class CCXT extends AbstractProvider {
 	static async requestCandles(request) {
 		if (!request.ticker.exchange) return [null, null]
 
-		const [bqExchangeId, bqMarket] = CCXT_TO_CACHE_MAP[request.ticker.exchange.id]
+		const [bqExchangeId, bqMarket] = CCXT_TO_CACHE_MAP[request.ticker.exchange.id] ?? [undefined, undefined]
 
 		if (bqExchangeId && bqMarket) {
 			const query = `
 				WITH t1 AS (
-					SELECT price AS close FROM \`nlc-bot-36685.orderflow.crypto\`
+					SELECT close FROM \`nlc-bot-36685.orderflow.crypto\`
 					WHERE symbol="${request.ticker.id}" AND exchange="${bqExchangeId}" AND market="${bqMarket}"
 					ORDER BY timestamp DESC LIMIT 1
 				), t2 AS (
-					SELECT price AS open FROM \`nlc-bot-36685.orderflow.crypto\`
+					SELECT open FROM \`nlc-bot-36685.orderflow.crypto\`
 					WHERE symbol="${request.ticker.id}" AND exchange="${bqExchangeId}" AND market="${bqMarket}" AND timestamp > UNIX_MILLIS(CURRENT_TIMESTAMP())-180*1000
 					ORDER BY timestamp ASC LIMIT 1
 				), t3 AS (
-					SELECT MAX(price) AS high, MIN(price) AS low, SUM(qty) AS volume FROM \`nlc-bot-36685.orderflow.crypto\`
+					SELECT MAX(high) AS high, MIN(low) AS low, SUM(volume) AS volume FROM \`nlc-bot-36685.orderflow.crypto\`
 					WHERE symbol="${request.ticker.id}" AND exchange="${bqExchangeId}" AND market="${bqMarket}" AND timestamp > UNIX_MILLIS(CURRENT_TIMESTAMP())-180*1000
 				)
 				SELECT t2.open, t3.high, t3.low, t1.close, t3.volume FROM t1, t2, t3
