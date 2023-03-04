@@ -63,7 +63,7 @@ export default class CCXT extends AbstractProvider {
 			} else {
 				ccxtInstance = new ccxt[request.ticker.exchange.id]()
 			}
-	
+
 			let rawData
 			try {
 				rawData = await ccxtInstance.fetchOHLCV(request.ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
@@ -72,19 +72,19 @@ export default class CCXT extends AbstractProvider {
 				console.error(err)
 				return [null, null]
 			}
-	
+
 			let payload = {
 				candles: [],
 				title: request.ticker.name,
 				sourceText: "Data from " + request.ticker.exchange.name,
 				platform: "CCXT",
 			}
-	
+
 			rawData.forEach((e) => {
 				const timestamp = e[0] / 1000
 				payload.candles.push([timestamp, e[1], e[2], e[3], e[4]])
 			})
-	
+
 			return [payload, null]
 		}
 	}
