@@ -1,7 +1,9 @@
+import { parse } from "url"
+import HttpsProxyAgent from "https-proxy-agent"
+import ccxt, { binance, binanceusdm, binancecoinm } from "ccxt"
 import { BigQuery } from "@google-cloud/bigquery"
 
 import AbstractProvider from "./abstract.js"
-import ccxt from "ccxt"
 
 const client = new BigQuery();
 
@@ -51,15 +53,18 @@ export default class CCXT extends AbstractProvider {
 			return [payload, null]
 		} else {
 			let ccxtInstance
+
+			let opts = parse(`http://${process.env.PROXY_IP}`)
+			opts.auth = process.env.PROXY_AUTH;
 			if (request.ticker.exchange.id === "binance") {
-				ccxtInstance = new ccxt.binance()
-				ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+				let agent = HttpsProxyAgent(opts)
+				ccxtInstance = new binance({ agent })
 			} else if (request.ticker.exchange.id === "binanceusdm") {
-				ccxtInstance = new ccxt.binanceusdm()
-				ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+				let agent = HttpsProxyAgent(opts)
+				ccxtInstance = new binanceusdm({ agent })
 			} else if (request.ticker.exchange.id === "binancecoinm") {
-				ccxtInstance = new ccxt.binancecoinm()
-				ccxtInstance.proxy = `http://${process.env.PROXY_IP}/`
+				let agent = HttpsProxyAgent(opts)
+				ccxtInstance = new binancecoinm({ agent })
 			} else {
 				ccxtInstance = new ccxt[request.ticker.exchange.id]()
 			}
@@ -80,10 +85,7 @@ export default class CCXT extends AbstractProvider {
 				platform: "CCXT",
 			}
 
-			rawData.forEach((e) => {
-				const timestamp = e[0] / 1000
-				payload.candles.push([timestamp, e[1], e[2], e[3], e[4]])
-			})
+			payload.candles = rawData.map((e) => [e[0] / 1000, e[1], e[2], e[3], e[4]])
 
 			return [payload, null]
 		}
