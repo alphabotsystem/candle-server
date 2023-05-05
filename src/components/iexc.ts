@@ -15,7 +15,7 @@ export default class IEXC extends AbstractProvider {
 		} catch (err) {
 			console.error("Error occurred when fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 			console.error(err)
-			console.error(response?.text())
+			console.error(response)
 			return [null, null]
 		}
 
