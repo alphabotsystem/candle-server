@@ -1,9 +1,9 @@
 {
 	"dependencies": {
 		"@google-cloud/bigquery": "^6.2.0",
-		"ccxt": "^3.0.72",
+		"ccxt": "^3.0.92",
 		"express": "^4.18.2",
-		"https-proxy-agent": "^5.0.1",
+		"https-proxy-agent": "^6.0.0",
 		"memory-cache": "^0.2.0"
 	},
 	"type": "module"
