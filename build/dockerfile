@@ -1,19 +1,14 @@
-FROM node:18 AS builder
+FROM node:18-alpine
 WORKDIR /app
 
-# Install dependencies
-ADD ./package.json ./yarn.lock ./
+COPY ./package.json ./yarn.lock ./tsconfig.json ./
 RUN yarn
 
 # Copy source code
 COPY ./src ./src
 
-FROM node:18-alpine AS runner
-WORKDIR /app
-
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/src ./
-COPY --from=builder /app/package.json ./package.json
+# Build
+RUN yarn build
 
 # Run
-ENTRYPOINT ["node", "candle_server.js"]
+ENTRYPOINT ["node", "./dist/candle_server.js"]

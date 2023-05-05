@@ -5,7 +5,7 @@ import IEXC from "./components/iexc.js"
 
 const app = express()
 
-const requestCandles = async (request, platform) => {
+const requestCandles = async (request: any, platform: string) => {
 	if (platform === "CCXT") {
 		return await CCXT.requestCandles(request)
 	} else if (platform === "IEXC") {

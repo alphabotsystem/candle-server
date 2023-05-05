@@ -1,7 +1,7 @@
-import AbstractProvider from "./abstract.js"
+import AbstractProvider, { CandleResponse } from "./abstract.js"
 
 export default class IEXC extends AbstractProvider {
-	static async requestCandles(request) {
+	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
 
 		let rawData
@@ -16,14 +16,14 @@ export default class IEXC extends AbstractProvider {
 			return [null, null]
 		}
 
-		let payload = {
+		let payload: CandleResponse = {
 			candles: [],
 			title: request.ticker.name,
 			sourceText: "Data provided by IEX Cloud",
 			platform: "IEXC",
 		}
 
-		rawData.forEach((e) => {
+		rawData.forEach((e: any) => {
 			const timestamp = Date.parse(e.date + " " + e.minute) / 1000
 
 			if (e.marketClose) {

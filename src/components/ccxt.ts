@@ -1,20 +1,19 @@
-import { parse } from "url"
-import HttpsProxyAgent from "https-proxy-agent"
-import ccxt, { binance, binanceusdm, binancecoinm } from "ccxt"
+import { HttpsProxyAgent } from "https-proxy-agent"
+import ccxt, { binance, binanceusdm, binancecoinm, Exchange } from "ccxt"
 import { BigQuery } from "@google-cloud/bigquery"
 
-import AbstractProvider from "./abstract.js"
+import AbstractProvider, { CandleResponse } from "./abstract.js"
 
 const client = new BigQuery();
 
-const CCXT_TO_CACHE_MAP = {
+const CCXT_TO_CACHE_MAP: { [exchange: string]: string[]} = {
 	// binance: ["binance", "s"],
 	// binanceusdm: ["binance", "f"],
 	// binancecoinm: ["binance", "i"],
 }
 
 export default class CCXT extends AbstractProvider {
-	static async requestCandles(request) {
+	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
 
 		const [bqExchangeId, bqMarket] = CCXT_TO_CACHE_MAP[request.ticker.exchange.id] ?? [undefined, undefined]
@@ -54,19 +53,18 @@ export default class CCXT extends AbstractProvider {
 		} else {
 			let ccxtInstance
 
-			let opts = parse(`http://${process.env.PROXY_IP}`)
-			opts.auth = process.env.PROXY_AUTH;
+			const url = new URL(`http://${process.env.PROXY_AUTH}@${process.env.PROXY_IP}`)
 			if (request.ticker.exchange.id === "binance") {
-				let agent = HttpsProxyAgent(opts)
+				let agent = new HttpsProxyAgent(url)
 				ccxtInstance = new binance({ agent })
 			} else if (request.ticker.exchange.id === "binanceusdm") {
-				let agent = HttpsProxyAgent(opts)
+				let agent = new HttpsProxyAgent(url)
 				ccxtInstance = new binanceusdm({ agent })
 			} else if (request.ticker.exchange.id === "binancecoinm") {
-				let agent = HttpsProxyAgent(opts)
+				let agent = new HttpsProxyAgent(url)
 				ccxtInstance = new binancecoinm({ agent })
 			} else {
-				ccxtInstance = new ccxt[request.ticker.exchange.id]()
+				ccxtInstance = new (ccxt as any)[request.ticker.exchange.id]() as Exchange
 			}
 
 			let rawData
@@ -78,14 +76,12 @@ export default class CCXT extends AbstractProvider {
 				return [null, null]
 			}
 
-			let payload = {
-				candles: [],
+			let payload: CandleResponse = {
+				candles: rawData.map((e: number[]) => [e[0] / 1000, e[1], e[2], e[3], e[4]]),
 				title: request.ticker.name,
 				sourceText: "Data from " + request.ticker.exchange.name,
 				platform: "CCXT",
 			}
-
-			payload.candles = rawData.map((e) => [e[0] / 1000, e[1], e[2], e[3], e[4]])
 
 			return [payload, null]
 		}
