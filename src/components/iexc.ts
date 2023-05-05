@@ -5,15 +5,17 @@ export default class IEXC extends AbstractProvider {
 		if (!request.ticker.exchange) return [null, null]
 		console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 
-		let rawData
+		let rawData, response
 
 		try {
-			rawData = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY).then((res) => res.json())
+			response = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
+			rawData = await response.json()
 			if (rawData.length == 0) return [null, null]
 			if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
 		} catch (err) {
 			console.error("Error occurred when fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 			console.error(err)
+			console.error(response)
 			return [null, null]
 		}
 
