@@ -73,6 +73,7 @@ export default class CCXT extends AbstractProvider {
 				rawData = await ccxtInstance.fetchOHLCV(request.ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
 				if (rawData.length === 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
 			} catch (err) {
+				console.error("Error occurred when fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.id)
 				console.error(err)
 				return [null, null]
 			}
