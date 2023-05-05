@@ -3,12 +3,12 @@ import AbstractProvider, { CandleResponse } from "./abstract.js"
 export default class IEXC extends AbstractProvider {
 	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
+		console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 
 		let rawData
 
 		try {
-			const response = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
-			rawData = await response.json()
+			rawData = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY).then((res) => res.json())
 			if (rawData.length == 0) return [null, null]
 			if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
 		} catch (err) {
