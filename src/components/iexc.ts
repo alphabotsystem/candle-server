@@ -1,9 +1,17 @@
+import { Semaphore } from "async-mutex"
 import AbstractProvider, { CandleResponse } from "./abstract.js"
+
+const MAX_REQUESTS = 5
+const semaphore = new Semaphore(MAX_REQUESTS)
 
 export default class IEXC extends AbstractProvider {
 	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
 		console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
+
+		const [value, release] = await semaphore.acquire()
+		const start = Date.now()
+		console.log(`Request ${value}/${MAX_REQUESTS}`)
 
 		let rawData, response
 
@@ -18,6 +26,10 @@ export default class IEXC extends AbstractProvider {
 			console.error(response)
 			return [null, null]
 		}
+
+		setTimeout(() => {
+			release()
+		}, 1000 - (Date.now() - start))
 
 		let payload: CandleResponse = {
 			candles: [],
