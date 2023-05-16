@@ -15,7 +15,7 @@ const CCXT_TO_CACHE_MAP: { [exchange: string]: string[]} = {
 export default class CCXT extends AbstractProvider {
 	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
-		console.log("Fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.id)
+		// console.log("Fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.id)
 
 		const [bqExchangeId, bqMarket] = CCXT_TO_CACHE_MAP[request.ticker.exchange.id] ?? [undefined, undefined]
 

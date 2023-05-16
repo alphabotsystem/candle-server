@@ -7,11 +7,11 @@ const semaphore = new Semaphore(MAX_REQUESTS)
 export default class IEXC extends AbstractProvider {
 	static async requestCandles(request: any) {
 		if (!request.ticker.exchange) return [null, null]
-		console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
+		// console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 
 		const [value, release] = await semaphore.acquire()
 		const start = Date.now()
-		console.log(`Request ${value}/${MAX_REQUESTS}`)
+		// console.log(`Request ${value}/${MAX_REQUESTS}`)
 
 		let rawData, response
 
