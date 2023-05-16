@@ -1,7 +1,7 @@
 import { Semaphore } from "async-mutex"
 import AbstractProvider, { CandleResponse } from "./abstract.js"
 
-const MAX_REQUESTS = 4
+const MAX_REQUESTS = 3
 const semaphore = new Semaphore(MAX_REQUESTS)
 
 export default class IEXC extends AbstractProvider {
@@ -18,8 +18,6 @@ export default class IEXC extends AbstractProvider {
 		try {
 			response = await fetch("https://cloud.iexapis.com/stable/stock/" + request.ticker.id + "/intraday-prices?chartLast=3&token=" + process.env.IEXC_KEY)
 			rawData = await response.json()
-			if (rawData.length == 0) return [null, null]
-			if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
 		} catch (err) {
 			console.error("Error occurred when fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
 			console.error(err)
@@ -31,6 +29,9 @@ export default class IEXC extends AbstractProvider {
 		setTimeout(() => {
 			release()
 		}, 1000 - (Date.now() - start))
+
+		if (rawData.length == 0) return [null, null]
+		if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
 
 		let payload: CandleResponse = {
 			candles: [],
