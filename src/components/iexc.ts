@@ -1,7 +1,7 @@
 import { Semaphore } from "async-mutex"
 import AbstractProvider, { CandleResponse } from "./abstract.js"
 
-const MAX_REQUESTS = 3
+const MAX_REQUESTS = 5
 const semaphore = new Semaphore(MAX_REQUESTS)
 
 export default class IEXC extends AbstractProvider {
@@ -28,7 +28,7 @@ export default class IEXC extends AbstractProvider {
 
 		setTimeout(() => {
 			release()
-		}, 1000 - (Date.now() - start))
+		}, 1100 - (Date.now() - start))
 
 		if (rawData.length == 0) return [null, null]
 		if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
