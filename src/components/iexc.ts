@@ -1,7 +1,7 @@
 import { Semaphore } from "async-mutex"
 import AbstractProvider, { CandleResponse } from "./abstract.js"
 
-const MAX_REQUESTS = 5
+const MAX_REQUESTS = 3
 const semaphore = new Semaphore(MAX_REQUESTS)
 
 export default class IEXC extends AbstractProvider {
