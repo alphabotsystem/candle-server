@@ -15,6 +15,7 @@ export default class Twelvedata extends AbstractProvider {
 		} catch (err) {
 			console.error("Error occurred when fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.name)
 			console.error(err)
+			console.error(rawData)
 			console.error(response)
 			return [null, null]
 		}
