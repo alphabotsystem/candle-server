@@ -28,11 +28,11 @@ spec:
             value: "1"
           - name: NODE_ENV
             value: "production"
-          - name: IEXC_KEY
+          - name: TWELVEDATA_KEY
             valueFrom:
               secretKeyRef:
                 name: alpha-credentials
-                key: IEXC_KEY
+                key: TWELVEDATA_KEY
           - name: PROXY_IP
             valueFrom:
               secretKeyRef:

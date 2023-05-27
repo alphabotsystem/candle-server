@@ -1,15 +1,15 @@
 import express from "express"
 
 import CCXT from "./components/ccxt.js"
-import IEXC from "./components/iexc.js"
+import Twelvedata from "./components/twelvedata.js"
 
 const app = express()
 
 const requestCandles = async (request: any, platform: string) => {
 	if (platform === "CCXT") {
 		return await CCXT.requestCandles(request)
-	} else if (platform === "IEXC") {
-		return await IEXC.requestCandles(request)
+	} else if (platform === "Twelvedata") {
+		return await Twelvedata.requestCandles(request)
 	}
 	return [null, null]
 }
@@ -37,8 +37,14 @@ app.post("/candle/ccxt", async (req, res) => {
 	res.send({ response, message })
 })
 
+app.post("/candle/twelvedata", async (req, res) => {
+	const [response, message] = await Twelvedata.requestCandles(req.body)
+	res.send({ response, message })
+})
+
+// Remove after September 1st 2023
 app.post("/candle/iexc", async (req, res) => {
-	const [response, message] = await IEXC.requestCandles(req.body)
+	const [response, message] = await Twelvedata.requestCandles(req.body)
 	res.send({ response, message })
 })
 
