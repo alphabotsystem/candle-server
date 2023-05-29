@@ -2,6 +2,7 @@ import express from "express"
 
 import CCXT from "./components/ccxt.js"
 import Twelvedata from "./components/twelvedata.js"
+import IEXC from "./components/iexc.js"
 
 const app = express()
 
@@ -44,7 +45,7 @@ app.post("/candle/twelvedata", async (req, res) => {
 
 // Remove after September 1st 2023
 app.post("/candle/iexc", async (req, res) => {
-	const [response, message] = await Twelvedata.requestCandles(req.body)
+	const [response, message] = await IEXC.requestCandles(req.body)
 	res.send({ response, message })
 })
 
