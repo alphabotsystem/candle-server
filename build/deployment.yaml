@@ -33,6 +33,11 @@ spec:
               secretKeyRef:
                 name: alpha-credentials
                 key: TWELVEDATA_KEY
+          - name: IEXC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: alpha-credentials
+                key: IEXC_KEY
           - name: PROXY_IP
             valueFrom:
               secretKeyRef:
