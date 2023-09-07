@@ -2,7 +2,6 @@ import express from "express"
 
 import CCXT from "./components/ccxt.js"
 import Twelvedata from "./components/twelvedata.js"
-import IEXC from "./components/iexc.js"
 
 const app = express()
 
