@@ -5,13 +5,17 @@ const MAX_REQUESTS = 3
 const semaphore = new Semaphore(MAX_REQUESTS)
 
 export default class IEXC extends AbstractProvider {
-	static async requestCandles(request: any) {
-		if (!request.ticker.exchange) return [null, null]
-		// console.log("Fetching candles for", request.ticker.id, "from", request.ticker.exchange.id)
+	static async requestCandles(
+		request: any
+	): Promise<{
+		payload: CandleResponse | null,
+		message: string | null
+	}> {
+		console.warn("IEXC is deprecated")
+		if (!request.ticker.exchange) return { payload: null, message: null }
 
 		const [value, release] = await semaphore.acquire()
 		const start = Date.now()
-		// console.log(`Request ${value}/${MAX_REQUESTS}`)
 
 		let rawData, response
 
@@ -23,15 +27,15 @@ export default class IEXC extends AbstractProvider {
 			console.error(err)
 			console.error(response)
 			release()
-			return [null, null]
+			return { payload: null, message: null }
 		}
 
 		setTimeout(() => {
 			release()
 		}, 1100 - (Date.now() - start))
 
-		if (rawData.length == 0) return [null, null]
-		if (!request.ticker.quote) return [null, "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "."]
+		if (rawData.length == 0) return { payload: null, message: null }
+		if (!request.ticker.quote) return { payload: null, message: "Price for `" + request.ticker.name + "` is not available on " + request.ticker.exchange.name + "." }
 
 		let payload: CandleResponse = {
 			candles: [],
@@ -50,6 +54,6 @@ export default class IEXC extends AbstractProvider {
 			}
 		})
 
-		return [payload, null]
+		return { payload, message: null }
 	}
 }

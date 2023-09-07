@@ -12,7 +12,8 @@ const requestCandles = async (request: any, platform: string) => {
 	} else if (platform === "Twelvedata") {
 		return await Twelvedata.requestCandles(request)
 	}
-	return [null, null]
+	console.error("Invalid platform", platform)
+	return { payload: null, message: "Invalid platform. Please report this issue." }
 }
 
 app.use(express.json())
@@ -21,7 +22,7 @@ app.post("/candle", async (req, res) => {
 	let finalMessage = null
 
 	for (const platform of req.body.platforms) {
-		const [payload, message] = await requestCandles(req.body[platform], platform)
+		const { payload, message } = await requestCandles(req.body[platform], platform)
 		if (payload !== null) {
 			res.send({ response: payload, message: message })
 			return
@@ -34,18 +35,18 @@ app.post("/candle", async (req, res) => {
 })
 
 app.post("/candle/ccxt", async (req, res) => {
-	const [response, message] = await CCXT.requestCandles(req.body)
+	const { payload: response, message } = await CCXT.requestCandles(req.body)
 	res.send({ response, message })
 })
 
 app.post("/candle/twelvedata", async (req, res) => {
-	const [response, message] = await Twelvedata.requestCandles(req.body)
+	const { payload: response, message } = await Twelvedata.requestCandles(req.body)
 	res.send({ response, message })
 })
 
 // Remove after September 1st 2023
 app.post("/candle/iexc", async (req, res) => {
-	const [response, message] = await IEXC.requestCandles(req.body)
+	const { payload: response, message } = await IEXC.requestCandles(req.body)
 	res.send({ response, message })
 })
 

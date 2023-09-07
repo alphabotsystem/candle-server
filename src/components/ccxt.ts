@@ -1,21 +1,26 @@
 import { HttpsProxyAgent } from "https-proxy-agent"
-import ccxt, { binance, binanceusdm, binancecoinm, Exchange } from "ccxt"
+import ccxt, { binance, binanceusdm, binancecoinm, Exchange, NetworkError } from "ccxt"
 import { BigQuery } from "@google-cloud/bigquery"
 
 import AbstractProvider, { CandleResponse } from "./abstract.js"
 
 const client = new BigQuery();
 
-const CCXT_TO_CACHE_MAP: { [exchange: string]: string[]} = {
+const CCXT_TO_CACHE_MAP: { [exchange: string]: string[] } = {
 	// binance: ["binance", "s"],
 	// binanceusdm: ["binance", "f"],
 	// binancecoinm: ["binance", "i"],
 }
 
 export default class CCXT extends AbstractProvider {
-	static async requestCandles(request: any) {
-		if (!request.ticker.exchange) return [null, null]
-		// console.log("Fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.id)
+	static async requestCandles(
+		request: any,
+		depth: number | undefined = 1
+	): Promise<{
+		payload: CandleResponse | null,
+		message: string | null
+	}> {
+		if (!request.ticker.exchange) return { payload: null, message: null }
 
 		const [bqExchangeId, bqMarket] = CCXT_TO_CACHE_MAP[request.ticker.exchange.id] ?? [undefined, undefined]
 
@@ -50,7 +55,7 @@ export default class CCXT extends AbstractProvider {
 				platform: "CCXT",
 			}
 
-			return [payload, null]
+			return { payload, message: null }
 		} else {
 			let ccxtInstance
 
@@ -72,13 +77,19 @@ export default class CCXT extends AbstractProvider {
 
 			try {
 				rawData = await ccxtInstance.fetchOHLCV(request.ticker.symbol, "1m", Date.now() - 3 * 60 * 1000)
-				if (rawData.length === 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return [null, null]
+				if (rawData.length === 0 || !rawData[rawData.length - 1][4] || !rawData[0][1]) return { payload: null, message: null }
 			} catch (err) {
-				console.error("Error occurred when fetching candles for", request.ticker.symbol, "from", request.ticker.exchange.id)
-				console.error(err)
-				return [null, null]
+				if (err instanceof NetworkError) {
+					console.warn(`Network error occurred when fetching candles for ${request.ticker.symbol} from ${request.ticker.exchange.id}`)
+					await new Promise(resolve => setTimeout(resolve, 500))
+					if (depth > 3) return { payload: null, message: null }
+					return await CCXT.requestCandles(request, depth + 1)
+				} else {
+					console.error(`Error occurred when fetching candles for ${request.ticker.symbol} from ${request.ticker.exchange.id}`)
+					console.error(err)
+					return { payload: null, message: null }
+				}
 			}
-
 
 			let payload: CandleResponse = {
 				candles: rawData.map((e: number[]) => [e[0] / 1000, e[1], e[2], e[3], e[4]]),
@@ -87,7 +98,7 @@ export default class CCXT extends AbstractProvider {
 				platform: "CCXT",
 			}
 
-			return [payload, null]
+			return { payload, message: null }
 		}
 	}
 }
