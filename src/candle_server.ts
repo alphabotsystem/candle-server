@@ -44,12 +44,6 @@ app.post("/candle/twelvedata", async (req, res) => {
 	res.send({ response, message })
 })
 
-// Remove after September 1st 2023
-app.post("/candle/iexc", async (req, res) => {
-	const { payload: response, message } = await IEXC.requestCandles(req.body)
-	res.send({ response, message })
-})
-
 // const port = parseInt(process.env.PORT) || 8080
 const server = app.listen(6900, () => {
 	console.log("[Startup]: Candle Server is online")
