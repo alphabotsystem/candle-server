@@ -1,5 +1,5 @@
 import { HttpsProxyAgent } from "https-proxy-agent"
-import ccxt, { binance, binanceusdm, binancecoinm, Exchange, NetworkError } from "ccxt"
+import ccxt, { binance, binanceusdm, binancecoinm, Exchange, NetworkError, OHLCV } from "ccxt"
 import { BigQuery } from "@google-cloud/bigquery"
 
 import AbstractProvider, { CandleResponse } from "./abstract.js"
@@ -92,7 +92,7 @@ export default class CCXT extends AbstractProvider {
 			}
 
 			let payload: CandleResponse = {
-				candles: rawData.map((e: number[]) => [e[0] / 1000, e[1], e[2], e[3], e[4]]),
+				candles: rawData.map((e: OHLCV) => [e[0]! / 1000, e[1]!, e[2]!, e[3]!, e[4]!]),
 				title: request.ticker.name,
 				sourceText: "Data from " + request.ticker.exchange.name,
 				platform: "CCXT",
