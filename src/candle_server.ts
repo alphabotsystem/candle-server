@@ -43,7 +43,6 @@ app.post("/candle/twelvedata", async (req, res) => {
 	res.send({ response, message })
 })
 
-// const port = parseInt(process.env.PORT) || 8080
 const server = app.listen(6900, () => {
 	console.log("[Startup]: Candle Server is online")
 })
