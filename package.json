@@ -1,15 +1,15 @@
 {
 	"dependencies": {
-		"@google-cloud/bigquery": "^7.9.2",
+		"@google-cloud/bigquery": "^8.0.0",
 		"async-mutex": "^0.5.0",
-		"ccxt": "^4.4.60",
-		"express": "^4.21.2",
+		"ccxt": "^4.4.78",
+		"express": "^5.1.0",
 		"https-proxy-agent": "^7.0.6"
 	},
 	"type": "module",
 	"devDependencies": {
-		"@types/express": "^5.0.0",
-		"typescript": "^5.7.3"
+		"@types/express": "^5.0.1",
+		"typescript": "^5.8.3"
 	},
 	"scripts": {
 		"dev": "yarn build; node dist/index.js",
