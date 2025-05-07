@@ -59,15 +59,16 @@ export default class CCXT extends AbstractProvider {
 		} else {
 			let ccxtInstance
 
-			const url = new URL(`http://${process.env.PROXY_IP}`)
+			console.log(process.env.PROXY_IP)
+			const proxy = new URL(`http://${process.env.PROXY_IP}`)
 			if (request.ticker.exchange.id === "binance") {
-				let agent = new HttpsProxyAgent(url)
+				let agent = new HttpsProxyAgent(proxy)
 				ccxtInstance = new binance({ agent })
 			} else if (request.ticker.exchange.id === "binanceusdm") {
-				let agent = new HttpsProxyAgent(url)
+				let agent = new HttpsProxyAgent(proxy)
 				ccxtInstance = new binanceusdm({ agent })
 			} else if (request.ticker.exchange.id === "binancecoinm") {
-				let agent = new HttpsProxyAgent(url)
+				let agent = new HttpsProxyAgent(proxy)
 				ccxtInstance = new binancecoinm({ agent })
 			} else {
 				ccxtInstance = new (ccxt as any)[request.ticker.exchange.id]() as Exchange
